@@ -1,0 +1,276 @@
+<html>
+  <head>
+    <title>Placelister</title>
+
+    <!--<script src="//code.jquery.com/jquery-latest.min.js"></script>-->
+    <!--<script src="//code.jquery.com/ui/1.10.2/jquery-ui.js"></script>-->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.3.0/ui-bootstrap-tpls.min.js"></script>
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+
+
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCGkffnTSjs9i0PpPXthYJ93TBSJhJHEnQ&libraries=places&sensor=false"></script>
+    <script src="/javascripts/angular-leaflet-directive.min.js"></script>
+
+
+
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css">
+    <link href="https://fonts.googleapis.com/css?family=News+Cycle|Open+Sans" rel="stylesheet">
+
+
+
+    <script src="/javascripts/angularApp.js"></script>
+    <style>
+        .glyphicon-thumbs-up { cursor:pointer }
+
+        .glyphicon-remove { cursor:pointer }
+
+        .navbar-brand {
+            font-family: 'News Cycle', sans-serif;
+            font-size: 32px;
+        }
+
+        .navbar-right {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+        }
+
+        #map {
+            height : 500px;
+        }
+
+        #home-screen {
+            margin-left : 40px;
+        }
+
+        .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+
+    </style>
+  </head>
+
+  <body ng-app="placelister">
+
+    <nav class="navbar navbar-default" ng-controller="NavCtrl">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a id="headert" class="navbar-brand" href="#/home" style="color:#a6141b">placelist</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                  <li ng-show="isLoggedIn()"><a>{{ currentUser() }}</a></li>
+                  <li ng-show="isLoggedIn()"><a href="/#/dashboard">Your Lists</a></li>
+                  <li ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Log Out</a></li>
+                  <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
+                  <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+          <ui-view></ui-view>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="/home.html">
+
+        <div class="row" id="home-screen">
+
+        <div class="page-header">
+            <h1>Placelister</h1>
+        </div>
+
+
+        <div ng-repeat="list in lists | orderBy: '-upvotes'">
+
+          <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(list)"></span>
+            {{list.upvotes}}
+          <span style="font-size:20px; margin-left:10px;">
+              <span>
+                <a href="#/lists/{{list._id}}">{{list.title}}</a>
+              </span>
+              <span ng-show="list.author">
+                  posted by <a>{{list.author}}</a>
+              </span>
+          </span>
+
+        </div>
+
+        <form ng-submit="addList()" ng-show="isLoggedIn()" style="margin-top:30px;">
+          <h3>Add a new list</h3>
+          <div class="form-group">
+          <input type="text" class="form-control" placeholder="Title" ng-model="title" style="width:60vw;"></input>
+          </div>
+          <button type="submit">Add List</button>
+        </form>
+
+        <div ng-hide="isLoggedIn()">
+          <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can add a post.</h3>
+        </div>
+
+        </div>
+
+    </script>
+
+
+    <script type="text/ng-template" id="/dashboard.html">
+
+        <div class="row" id="home-screen">
+
+        <div class="page-header">
+            <h1>Placelister</h1>
+        </div>
+
+
+        <div ng-repeat="list in theselists | orderBy: '-upvotes'">
+
+          <span style="font-size:20px; margin-left:10px;">
+              <span>
+                <a href="#/lists/{{list._id}}">{{list.title}}</a>
+              </span>
+              <span ng-show="list.author">
+                  posted by <a>{{list.author}}</a>
+              </span>
+          </span>
+
+        </div>
+
+        <form ng-submit="addList()" ng-show="isLoggedIn()" style="margin-top:30px;">
+          <h3>Add a new list</h3>
+          <div class="form-group">
+          <input type="text" class="form-control" placeholder="Title" ng-model="title" style="width:60vw;"></input>
+          </div>
+          <button type="submit">Add List</button>
+        </form>
+
+        <div ng-hide="isLoggedIn()">
+          <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can add a post.</h3>
+        </div>
+
+        </div>
+
+    </script>
+
+
+    <script type="text/ng-template" id="/lists.html">
+      <div class="page-header">
+        <h3>
+          <span ng-show="list.author">
+            {{list.title}} by {{list.author}}
+          </span>
+            <span ng-hide="list.author">
+            {{list.title}}
+          </span>
+        </h3>
+      </div>
+
+      <div class="col-sm-5">
+      <uib-accordion close-others="true">
+        <div uib-accordion-group class="panel-default" heading="{{place.realName}}" ng-click="highlightMarker(place)" ng-repeat="place in list.places">
+          type: {{place.type}}
+          <br>
+          {{place.address}}
+          <br>
+          <span class="glyphicon glyphicon-remove" ng-click="removePlace(place)">Remove</span>
+        </div>
+      </uib-accordion>
+    </div>
+
+      <div class="col-sm-7">
+      <leaflet id="map" center="osloCenter" layers="layers" markers="data.markers"></leaflet>
+      </div>
+
+      <div class="col-sm-6">
+      <form ng-submit="addPlace()" ng-show="isLoggedIn()" style="margin-top:30px;">
+        <h3>Add a new place</h3>
+
+        <div class="form-group">
+          <input ng-model="name" class="form-control" googleplace/>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add</button>
+      </form>
+
+
+      <div ng-hide="isLoggedIn()">
+        <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can comment.</h3>
+      </div>
+    </script>
+
+
+    <script type="text/ng-template" id="/register.html">
+      <div class="page-header">
+        <h1>Flapper News</h1>
+      </div>
+
+      <div ng-show="error" class="alert alert-danger row">
+        <span>{{ error.message }}</span>
+      </div>
+
+      <form ng-submit="register()"
+        style="margin-top:30px;">
+        <h3>Register</h3>
+
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Username" ng-model="user.username"> </input>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" placeholder="Password" ng-model="user.password"> </input>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+    </script>
+
+
+
+    <script type="text/ng-template" id="/login.html">
+      <div class="page-header">
+        <h1>Placelister</h1>
+      </div>
+
+      <div ng-show="error" class="alert alert-danger row">
+        <span>{{ error.message }}</span>
+      </div>
+
+      <form ng-submit="logIn()"
+        style="margin-top:30px;">
+        <h3>Log In</h3>
+
+        <div class="form-group">
+          <input type="text"
+          class="form-control"
+          placeholder="Username"
+          ng-model="user.username"></input>
+        </div>
+        <div class="form-group">
+          <input type="password"
+          class="form-control"
+          placeholder="Password"
+          ng-model="user.password"></input>
+        </div>
+        <button type="submit" class="btn btn-primary">Log In</button>
+      </form>
+    </script>
+
+  </body>
+</html>
