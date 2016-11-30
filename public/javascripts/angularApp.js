@@ -331,6 +331,15 @@ function($scope, lists, list, auth, leafletData){
                     lng: thisp.lon,
                     id: thisp._id,
                     message: thisp.realName + "<br>" + thisp.address,
+                    icon: {
+                        iconUrl: 'dist/images/marker-icon.png',
+                        shadowUrl: 'dist/images/marker-shadow.png',
+                        iconSize:     [35, 50], // size of the icon
+                        shadowSize:   [40, 40], // size of the shadow
+                        iconAnchor:   [30, 50], // point of the icon which will correspond to marker's location
+                        shadowAnchor: [4, 62],  // the same for the shadow
+                        popupAnchor:  [-3, -50] // point from which the popup should open relative to the iconAnchor
+                    },
                     //focus: true
                 };
             var count = i;

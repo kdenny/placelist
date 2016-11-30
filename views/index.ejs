@@ -45,7 +45,11 @@
         }
 
         #map {
-            height : 500px;
+            height : 600px;
+        }
+
+        #map-left-pane {
+            margin-left: 10px;
         }
 
         #home-screen {
@@ -173,7 +177,10 @@
 
 
     <script type="text/ng-template" id="/lists.html">
-      <div class="page-header">
+
+
+      <div class="col-sm-4" id="map-left-pane">
+        <div class="page-header">
         <h3>
           <span ng-show="list.author">
             {{list.title}} by {{list.author}}
@@ -183,8 +190,6 @@
           </span>
         </h3>
       </div>
-
-      <div class="col-sm-5">
       <uib-accordion close-others="true">
         <div uib-accordion-group class="panel-default" heading="{{place.realName}}" ng-click="highlightMarker(place)" ng-repeat="place in list.places">
           type: {{place.type}}
@@ -194,13 +199,8 @@
           <span class="glyphicon glyphicon-remove" ng-click="removePlace(place)">Remove</span>
         </div>
       </uib-accordion>
-    </div>
 
-      <div class="col-sm-7">
-      <leaflet id="map" center="osloCenter" layers="layers" markers="data.markers"></leaflet>
-      </div>
 
-      <div class="col-sm-6">
       <form ng-submit="addPlace()" ng-show="isLoggedIn()" style="margin-top:30px;">
         <h3>Add a new place</h3>
 
@@ -215,6 +215,12 @@
       <div ng-hide="isLoggedIn()">
         <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can comment.</h3>
       </div>
+    </div>
+
+    <div class="col-sm-7">
+      <leaflet id="map" center="osloCenter" layers="layers" markers="data.markers"></leaflet>
+    </div>
+
     </script>
 
 

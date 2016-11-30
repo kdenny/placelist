@@ -22,9 +22,9 @@ require('./config/passport');
 
 
 
-//mongoose.connect('mongodb://localhost/placebase');
+mongoose.connect('mongodb://localhost/placebase');
 
-mongoose.connect(process.env.MONGODB_URI);
+//mongoose.connect(process.env.MONGODB_URI);
 
 
 
