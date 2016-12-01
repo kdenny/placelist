@@ -2,8 +2,6 @@
   <head>
     <title>Placelister</title>
 
-    <!--<script src="//code.jquery.com/jquery-latest.min.js"></script>-->
-    <!--<script src="//code.jquery.com/ui/1.10.2/jquery-ui.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     <script src="/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.3.0/ui-bootstrap-tpls.min.js"></script>
@@ -17,49 +15,15 @@
     <script src="/javascripts/angular-leaflet-directive.min.js"></script>
 
 
-
-    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
-
-      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
 
     <link rel="stylesheet" href="/dist/leaflet.css">
     <link href="https://fonts.googleapis.com/css?family=News+Cycle|Open+Sans" rel="stylesheet">
 
-
-
+    <link rel="stylesheet" href="/stylesheets/style.css">
     <script src="/javascripts/angularApp.js"></script>
-    <style>
-        .glyphicon-thumbs-up { cursor:pointer }
 
-        .glyphicon-remove { cursor:pointer }
-
-        .navbar-brand {
-            font-family: 'News Cycle', sans-serif;
-            font-size: 32px;
-        }
-
-        .navbar-right {
-            font-family: 'Open Sans', sans-serif;
-            font-size: 16px;
-        }
-
-        #map {
-            height : 600px;
-        }
-
-        #map-left-pane {
-            margin-left: 10px;
-        }
-
-        #home-screen {
-            margin-left : 40px;
-        }
-
-        .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
-
-
-    </style>
   </head>
 
   <body ng-app="placelister">
@@ -73,7 +37,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a id="headert" class="navbar-brand" href="#/home" style="color:#a6141b">placelist</a>
+                <a id="headert" class="navbar-brand" href="#/home">placelist</a>
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -87,7 +51,6 @@
             </div>
         </div>
     </nav>
-
 
 
     <div class="row">
