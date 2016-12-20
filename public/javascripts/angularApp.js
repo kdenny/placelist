@@ -171,6 +171,14 @@ app.factory('lists', ['$http', 'auth', function($http, auth){
       });
     };
 
+    o.upvote = function(list) {
+	  return $http.put('/lists/' + list._id + '/upvote', null, {
+	    headers: {Authorization: 'Bearer '+auth.getToken()}
+	  }).success(function(data){
+	    list.upvotes += 1;
+	  });
+	};
+
     o.addPlace = function(id, place) {
 	  return $http.post('/lists/' + id + '/places', place, {
           headers: {Authorization: 'Bearer '+auth.getToken()}
@@ -262,14 +270,14 @@ function($scope, lists, auth){
           title: $scope.title
       });
 
-
-
       $scope.title = '';
     };
 
 
+    
   $scope.incrementUpvotes = function(list) {
-      list.upvotes += 1;
+      console.log('Upvoting:' + list.title + "votes before:" + list.upvotes);
+      lists.upvote(list);
     };
 
 
